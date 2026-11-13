@@ -24,7 +24,8 @@
 
 <!-- The app opens this page as apps.html?lang=xx in the language set in the game; without it, the browser's
      language is used, and English when neither is one of these. To add an app, add it to `apps` below;
-     an app without `play` shows "Coming soon" instead of the Google Play button. -->
+     an app without `play` shows "Coming soon" instead of the Google Play button.
+     Published at the root of hotori-dad.github.io; the icons kept here as Docs/Store/apps/NAME.png go up as NAME/icon.png. -->
 <h1 id="title">Hotori's apps</h1>
 <p class="lead" id="lead">Play apps for little ones</p>
 <div id="apps"></div>
@@ -109,6 +110,8 @@
     return e;
   }
 
+  // Google Play wants the region for these two (zh-TW and pt-PT are other store languages)
+  var playLocale = { zh: "zh-CN", pt: "pt-BR" };
   var lang = pick(), t = ui[lang];
   document.documentElement.lang = lang;
   document.title = t[0];
@@ -126,7 +129,7 @@
     body.appendChild(el("p", "", a.text[lang] || a.text.en));
     if (a.play) {
       var link = el("a", "play", "Google Play");
-      link.href = a.play + "&hl=" + lang; // the store page in the same language
+      link.href = a.play + "&hl=" + (playLocale[lang] || lang); // the store page in the same language
       body.appendChild(link);
     } else {
       body.appendChild(el("span", "soon", t[4]));
