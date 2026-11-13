@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hotori Apps</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; line-height: 1.6; color: #2b2b2b; background: #fffaf0; }
+  h1 { font-size: 1.6em; margin: 0 0 0.2em; }
+  .lead { color: #777; margin: 0 0 28px; }
+  .app { display: flex; gap: 18px; align-items: center; background: #fff; border: 2px solid #e5dccb; border-radius: 20px; padding: 16px; margin-bottom: 16px; }
+  .app > div { min-width: 0; }
+  .app img { width: 96px; height: 96px; border-radius: 22px; flex: none; }
+  .app h2 { font-size: 1.15em; margin: 0 0 4px; }
+  .app p { margin: 0 0 10px; color: #555; }
+  .play { display: inline-block; background: #c0602b; color: #fff; text-decoration: none; font-weight: 600; padding: 8px 16px; border-radius: 999px; }
+  .soon { display: inline-block; background: #efe7d8; color: #8a7a60; font-weight: 600; padding: 8px 16px; border-radius: 999px; }
+  footer { margin-top: 40px; color: #999; font-size: 0.85em; }
+  footer a { color: #999; }
+</style>
+</head>
+<body>
+
+<!-- The app opens this page as apps.html?lang=xx in the language set in the game; without it, the browser's
+     language is used, and English when neither is one of these. To add an app, add it to `apps` below;
+     an app without `play` shows "Coming soon" instead of the Google Play button. -->
+<h1 id="title">Hotori's apps</h1>
+<p class="lead" id="lead">Play apps for little ones</p>
+<div id="apps"></div>
+<footer>
+  <span id="by">Hotori</span> — <a href="numbertori/privacy.html" id="privacy">Privacy policy</a>
+</footer>
+
+<script>
+  var ui = {
+    //  title, lead, by, privacy, coming soon
+    ko: ["호토리의 앱", "아이와 함께하는 놀이 앱", "호토리", "개인정보처리방침", "출시 예정"],
+    en: ["Hotori's apps", "Play apps for little ones", "Hotori", "Privacy policy", "Coming soon"],
+    ja: ["ホトリのアプリ", "小さな子どものための遊びアプリ", "ホトリ", "プライバシーポリシー", "近日公開"],
+    zh: ["Hotori 的应用", "陪伴小朋友的游戏应用", "Hotori", "隐私政策", "即将推出"],
+    es: ["Apps de Hotori", "Apps de juego para los más pequeños", "Hotori", "Política de privacidad", "Próximamente"],
+    fr: ["Les applis de Hotori", "Des applis de jeu pour les tout-petits", "Hotori", "Politique de confidentialité", "Bientôt disponible"],
+    de: ["Hotoris Apps", "Spiel-Apps für die Kleinsten", "Hotori", "Datenschutzerklärung", "Demnächst"],
+    pt: ["Apps do Hotori", "Apps de brincar para os pequenos", "Hotori", "Política de privacidade", "Em breve"]
+  };
+  var apps = [
+    {
+      icon: "numbertori/icon.png",
+      play: "https://play.google.com/store/apps/details?id=com.hotori.number10",
+      name: { ko: "넘버토리", ja: "ナンバートリ", other: "NumberTori" },
+      text: {
+        ko: "호토리와 심부름하며 1부터 10까지 세어 봐요.",
+        en: "Count from 1 to 10 on errands with Hotori.",
+        ja: "ホトリといっしょにおつかいをしながら、1から10までかぞえよう。",
+        zh: "和 Hotori 一起跑腿，从 1 数到 10。",
+        es: "Cuenta del 1 al 10 haciendo recados con Hotori.",
+        fr: "Compte de 1 à 10 en faisant des courses avec Hotori.",
+        de: "Zähle mit Hotori bei Besorgungen von 1 bis 10.",
+        pt: "Conte de 1 a 10 fazendo tarefas com o Hotori."
+      }
+    },
+    {
+      icon: "numbertori2/icon.png",
+      name: { ko: "넘버토리 2", ja: "ナンバートリ2", other: "NumberTori 2" },
+      text: {
+        ko: "호토리와 10부터 20까지 세고, 10묶음을 배우고, 퍼즐을 모아요.",
+        en: "Count from 10 to 20 with Hotori, learn tens and collect puzzles.",
+        ja: "ホトリと10から20までかぞえて、10のまとまりをまなび、パズルをあつめよう。",
+        zh: "和 Hotori 一起从 10 数到 20，学十个一组，收集拼图。",
+        es: "Cuenta del 10 al 20 con Hotori, aprende las decenas y colecciona puzles.",
+        fr: "Compte de 10 à 20 avec Hotori, apprends les dizaines et collectionne les puzzles.",
+        de: "Zähle mit Hotori von 10 bis 20, lerne Zehner und sammle Puzzles.",
+        pt: "Conte de 10 a 20 com o Hotori, aprenda as dezenas e colecione quebra-cabeças."
+      }
+    },
+    {
+      icon: "habits/icon.png",
+      name: {
+        ko: "호토리의 생활습관", en: "Hotori Habits", ja: "ホトリのせいかつしゅうかん", zh: "Hotori 生活习惯",
+        es: "Los hábitos de Hotori", fr: "Les habitudes de Hotori", de: "Hotoris Gewohnheiten", pt: "Os hábitos do Hotori"
+      },
+      text: {
+        ko: "양치, 화장실, 식사, 잠자리까지 호토리와 함께 생활습관을 배워요.",
+        en: "Brushing, potty, mealtimes and bedtime: learn everyday habits with Hotori.",
+        ja: "はみがき、トイレ、ごはん、おやすみまで、ホトリといっしょに生活習慣をまなぼう。",
+        zh: "刷牙、上厕所、吃饭、睡觉，和 Hotori 一起养成好习惯。",
+        es: "Lavarse los dientes, ir al baño, comer y dormir: aprende hábitos con Hotori.",
+        fr: "Se brosser les dents, aller aux toilettes, manger, se coucher : les bonnes habitudes avec Hotori.",
+        de: "Zähneputzen, Toilette, Essen und Schlafen: Alltagsgewohnheiten lernen mit Hotori.",
+        pt: "Escovar os dentes, ir ao banheiro, comer e dormir: aprenda hábitos com o Hotori."
+      }
+    }
+  ];
+
+  function pick() {
+    var asked = (new URLSearchParams(location.search).get("lang") || "").toLowerCase();
+    var wanted = [asked].concat(navigator.languages || [navigator.language || ""]);
+    for (var i = 0; i < wanted.length; i++) {
+      var code = (wanted[i] || "").toLowerCase().split("-")[0];
+      if (ui[code]) return code;
+    }
+    return "en";
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+
+  var lang = pick(), t = ui[lang];
+  document.documentElement.lang = lang;
+  document.title = t[0];
+  document.getElementById("title").textContent = t[0];
+  document.getElementById("lead").textContent = t[1];
+  document.getElementById("by").textContent = t[2];
+  document.getElementById("privacy").textContent = t[3];
+
+  var list = document.getElementById("apps");
+  apps.forEach(function (a) {
+    var card = el("div", "app"), img = el("img"), body = el("div");
+    img.src = a.icon;
+    img.alt = "";
+    body.appendChild(el("h2", "", a.name[lang] || a.name.other || a.name.en));
+    body.appendChild(el("p", "", a.text[lang] || a.text.en));
+    if (a.play) {
+      var link = el("a", "play", "Google Play");
+      link.href = a.play + "&hl=" + lang; // the store page in the same language
+      body.appendChild(link);
+    } else {
+      body.appendChild(el("span", "soon", t[4]));
+    }
+    card.appendChild(img);
+    card.appendChild(body);
+    list.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
